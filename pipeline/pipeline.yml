@@ -1,0 +1,14 @@
+steps:
+  - label: "test"
+    command:
+      - "./auto/./test.sh"
+
+  - block: "dev"
+    branches: "master"
+# build stage
+# 1. build a image, upload docker hub
+# 2. agent pull this image than build and test
+
+# depoly to dev
+# 1. build a image, upload docker hub
+# 2. use k8s to deploy
