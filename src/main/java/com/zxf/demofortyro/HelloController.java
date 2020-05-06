@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HelloController {
-
     @PostMapping("/api/greeting/say/{personname}")
     public ResponseEntity<String> sayHi(@PathVariable String personname) {
         System.out.println(personname);
