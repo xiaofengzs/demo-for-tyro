@@ -14,5 +14,4 @@ public class HelloController {
         System.out.println(personname);
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body("hi, " + personname);
     }
-
 }
