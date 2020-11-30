@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean class="bean.definition.model.User">
+        <constructor-arg name="name" value="zxg"/>
+        <constructor-arg name="age" value="18"/>
+    </bean>
+
+    <bean name="user-static-factory-method" class="bean.definition.model.User" factory-method="createUser"/>
+
+    <bean name="user-factory" factory-bean="userFactory" factory-method="buildUser"/>
+    <bean name="userFactory" class="bean.definition.instantiation.factory.DefaultUserFactory"/>
+
+    <bean name="user-factory-bean" class="bean.definition.instantiation.factorybean.UserFactoryBean" />
+</beans>
