@@ -1,0 +1,6 @@
+FROM nginx:1.19.10-alpine
+
+COPY web-nginx.conf /etc/nginx/conf.d
+COPY html/ /usr/share/nginx/html
+
+

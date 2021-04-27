@@ -1,7 +1,7 @@
 FROM maven:3.6.3-jdk-8 as builder
 WORKDIR /app
 COPY ./ /app
-EXPOSE 8080
+EXPOSE 8081
 RUN ["mvn", "clean", "install"]
 
 FROM adoptopenjdk:8-jdk-openj9-bionic as prod

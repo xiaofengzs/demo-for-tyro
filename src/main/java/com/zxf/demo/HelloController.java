@@ -44,4 +44,9 @@ public class HelloController {
             return "Hello World!";
     }
 
+    @GetMapping("/users")
+    public String users() {
+        return "I'am Xiaofeng Zhi";
+    }
+
 }

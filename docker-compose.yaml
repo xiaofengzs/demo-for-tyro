@@ -1,17 +1,87 @@
 version: '2.0'
 services:
-#  web:
-#    build: .
-#    ports:
-#    - "8000:8080"
+  web:
+    build: .
+    ports:
+      - "8081:8081"
+    expose:
+      - "8081"
+    depends_on:
+      - db
+    networks:
+      - proxy
+      - backend
+      - monitoring
+  nginx-proxy:
+    image: mynginx
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    ports:
+    - "8888:80"
+    expose:
+      - "8888"
+    depends_on:
+      - web
+    networks:
+      - proxy
+      - monitoring
+  db:
+    image: mysql
+    environment:
+      MYSQL_ALLOW_EMPTY_PASSWORD: "true"
+    volumes:
+    - myapp:/var/lib/mysql
+    networks:
+      - backend
+      - monitoring
   prometheus:
     image: prom/prometheus
     ports:
       - "9090:9090"
     volumes:
     - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    depends_on:
+      - web
+    networks:
+      - backend
+      - monitoring
   grafana:
     image: grafana/grafana
     ports:
       - "3000:3000"
+    depends_on:
+      - prometheus
+    networks:
+      - monitoring
+  cadvisor:
+    image: gcr.io/cadvisor/cadvisor:latest
+    container_name: cadvisor
+    ports:
+      - 8008:8080
+    volumes:
+      - /:/rootfs:ro
+      - /var/run/docker.sock:/var/run/docker.sock:rw
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    depends_on:
+      - redis
+    networks:
+      - monitoring
+  redis:
+    image: redis:latest
+    container_name: redis
+    expose:
+      - "6379"
+    networks:
+      - monitoring
+networks:
+  proxy:
+    driver: bridge
+  backend:
+    driver: bridge
+  monitoring:
+    driver: bridge
+volumes:
+  myapp:
 
